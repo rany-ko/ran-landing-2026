@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고경란 | AI 컨설턴트, AI/디지털 강사</title>
+    <!-- 고품질 한글 폰트 Pretendard 적용 -->
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        :root {
+            --navy: #2D3250;
+            --mint: #48C9B0;
+            --soft-white: #F4F7F6;
+            --deep-green: #3A5A40;
+            --pure-white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: var(--soft-white);
+            color: var(--navy);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 1. 상단 히어로 배너 */
+        .hero-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--deep-green) 100%);
+        }
+
+        /* 2. 프로필 이미지 (오버랩 스타일) */
+        .profile-container {
+            position: relative;
+            margin-top: -80px;
+            /* 배너에 80px 오버랩 */
+            z-index: 10;
+            margin-bottom: 24px;
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--pure-white);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background-color: var(--mint);
+            /* 이미지 로딩 전 대비색 */
+        }
+
+        /* 3. 헤더 정보 (이름, 직함) */
+        .header-info {
+            text-align: center;
+            width: 100%;
+            max-width: 440px;
+            padding: 0 20px;
+        }
+
+        .name {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .job-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--navy);
+        }
+
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(45, 50, 80, 0.2);
+            margin: 20px 0;
+        }
+
+        .intro-content {
+            font-size: 18px;
+            word-break: keep-all;
+            margin-bottom: 36px;
+            color: var(--navy);
+            text-align: center;
+            /* 왼쪽 정렬에서 중앙 정렬로 변경 */
+            padding: 0 10px;
+        }
+
+        /* 4. 경력 카드 리스트 */
+        .career-list {
+            width: 90%;
+            max-width: 440px;
+            margin-bottom: 40px;
+        }
+
+        .career-card {
+            background: var(--pure-white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .career-period {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--mint);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .career-main {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .career-sub {
+            font-size: 16px;
+            color: #444;
+            white-space: pre-line;
+            /* 줄바꿈 반영 */
+        }
+
+        /* 5. 하단 버튼 그룹 */
+        .button-area {
+            width: 90%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-bottom: 60px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            background-color: var(--mint);
+            color: var(--pure-white);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:active {
+            opacity: 0.8;
+        }
+
+        /* 알림용 토스트 */
+        #copy-toast {
+            visibility: hidden;
+            background-color: var(--navy);
+            color: #fff;
+            text-align: center;
+            border-radius: 25px;
+            padding: 14px 28px;
+            position: fixed;
+            z-index: 100;
+            bottom: 40px;
+            font-size: 16px;
+        }
+
+        #copy-toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 40px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 40px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 상단 그라데이션 배너 -->
+    <div class="hero-banner"></div>
+
+    <!-- 입체 프로필 사진 -->
+    <div class="profile-container">
+        <img src="profile.png" alt="고경란 프로필" class="profile-img"
+            onerror="this.src='https://via.placeholder.com/160/48C9B0/FFFFFF?text=Rany'">
+    </div>
+
+    <!-- 헤더 섹션 -->
+    <div class="header-info">
+        <h1 class="name">고경란</h1>
+        <p class="job-title">AI 컨설턴트 · AI/디지털 강사</p>
+        <div class="section-divider"></div>
+        <div class="intro-content">
+            중장년과 시니어를 대상으로 디지털 교육을 해 온 경험을 바탕으로, 이제는 AI 컨설턴트로서 소상공인 사장님들께 실질적인 도움을 드리고자 합니다. AI 도구를 활용하여 업무 효율을 높일 수 있도록
+            함께하겠습니다.
+        </div>
+    </div>
+
+    <!-- 경력 리스트 (최신순) -->
+    <div class="career-list">
+        <div class="career-card">
+            <span class="career-period">2026 ~ 현재</span>
+            <div class="career-main">상상우리, AI 컨설턴트</div>
+            <div class="career-sub">소상공인 대상 AI 활용과 디지털 전환 지원</div>
+        </div>
+
+        <div class="career-card">
+            <span class="career-period">2024 ~ 현재</span>
+            <div class="career-main">카카오페이티처, 신한아름인금융교육 강사</div>
+            <div class="career-sub">시니어 디지털 활용 및 디지털 금융 교육 진행</div>
+        </div>
+
+        <div class="career-card">
+            <span class="career-period">2025</span>
+            <div class="career-main">주요 프로젝트 및 외부 활동</div>
+            <div class="career-sub">서울AI재단, 시니어 디지털 및 AI 교육
+                질병관리청 국민소통단원, 대상 수상
+                금천50플러스센터, 서초 스마트시니어센터 강의</div>
+        </div>
+    </div>
+
+    <!-- 하단 액션 버튼 -->
+    <div class="button-area">
+        <a href="mailto:mkran222@gmail.com" class="btn">이메일 보내기</a>
+        <button onclick="copyToClipboard('010-4951-0137')" class="btn">전화번호 복사하기</button>
+        <a href="https://blog.naver.com/mran2222" target="_blank" class="btn">블로그 방문하기</a>
+    </div>
+
+    <!-- 알림 토스트 -->
+    <div id="copy-toast">전화번호가 클립보드에 복사되었습니다.</div>
+
+    <script>
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const toast = document.getElementById("copy-toast");
+            toast.className = "show";
+            setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+
+</html>
